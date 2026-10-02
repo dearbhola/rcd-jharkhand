@@ -14,6 +14,13 @@ final class TestDataMode
 
     private bool $forcedExclude = false;
 
+    /** Back to environment defaults (start of every request / job). */
+    public function reset(): void
+    {
+        $this->include = null;
+        $this->forcedExclude = false;
+    }
+
     public function includesTestData(): bool
     {
         if ($this->forcedExclude) {

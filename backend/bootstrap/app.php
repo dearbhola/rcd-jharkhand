@@ -11,6 +11,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,6 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
             SecurityHeaders::class,
             ApplyTestDataMode::class,
         ]);
+
+        // Test-data visibility must be decided before route-model binding loads records.
+        $middleware->prependToPriorityList(SubstituteBindings::class, ApplyTestDataMode::class);
 
         $middleware->alias([
             'permission' => EnsurePermission::class,

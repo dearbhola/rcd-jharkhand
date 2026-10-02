@@ -19,6 +19,7 @@ class ApplyTestDataMode
 
     public function handle(Request $request, Closure $next): Response
     {
+        $this->mode->reset(); // never inherit a previous request's choice (long-running workers, tests)
         $user = $request->user();
 
         if ($user && $request->hasSession() && $request->session()->has(self::SESSION_KEY) && $user->can('testdata.include')) {

@@ -5,6 +5,10 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SlaController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Analytics\AnalyticsController;
+use App\Http\Controllers\Analytics\ContractCompletionController;
+use App\Http\Controllers\Analytics\PerformanceController;
+use App\Http\Controllers\Analytics\RoadHistoryController;
 use App\Http\Controllers\Auth\ChangePasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
@@ -92,6 +96,21 @@ Route::middleware(['auth', 'active', 'password.current'])->group(function () {
         ->where('action', '[a-z_]+')->middleware('throttle:30,1')->name('reports.actions');
     Route::get('tasks', [TaskController::class, 'index'])->name('tasks.index');
     Route::post('reports/{report}/reassign', [TaskReassignController::class, 'store'])->middleware('permission:workflow.reassign')->name('reports.reassign');
+
+    /*
+    | Performance, history, reports & exports (Phase 10)
+    */
+    Route::middleware('permission:performance.view')->group(function () {
+        Route::get('performance', [PerformanceController::class, 'index'])->name('performance.index');
+        Route::get('performance/contractors/{contractor}', [PerformanceController::class, 'show'])->name('performance.show');
+        Route::get('performance/drill/{metric}', [PerformanceController::class, 'drill'])->name('performance.drill');
+        Route::get('contracts/{contract}/completion-report', [ContractCompletionController::class, 'show'])->name('contracts.completion');
+    });
+    Route::get('roads/{road}/history', [RoadHistoryController::class, 'show'])->middleware('permission:road.view')->name('roads.history');
+    Route::middleware('permission:analytics.view')->group(function () {
+        Route::get('analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+        Route::get('analytics/{type}', [AnalyticsController::class, 'show'])->where('type', '[a-z_]+')->name('analytics.show');
+    });
 
     /*
     | Leave & delegation (Phase 7)

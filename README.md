@@ -17,9 +17,9 @@ The full specification is in [requirement.md](requirement.md); the design and de
 | 7 | Leave, delegation, reassignment | ✅ |
 | 8 | SLA, escalation, notifications | ✅ |
 | 9 | Role dashboards, system settings, search | ✅ |
-| 10 | Contractor performance, road history, reports & exports | next |
+| 10 | Contractor performance, road history, reports & exports | ✅ |
 | 11 | Mobile app (Flutter) + API | on hold |
-| 12 | Hardening, performance, documentation | planned |
+| 12 | Hardening, performance, documentation | next |
 
 Each phase has a write-up in [docs/](docs/).
 

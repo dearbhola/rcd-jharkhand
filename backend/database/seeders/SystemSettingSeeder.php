@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\SystemSetting;
+use App\Support\Settings;
 use Illuminate\Database\Seeder;
 
 /**
@@ -25,6 +26,8 @@ class SystemSettingSeeder extends Seeder
                 ],
             );
         }
+
+        app(Settings::class)->flush(); // settings are cached forever; make new keys visible
     }
 
     /** @return list<array{0: string, 1: string, 2: string, 3: mixed, 4: string, 5: bool}> */
@@ -84,6 +87,12 @@ class SystemSettingSeeder extends Seeder
             ['otp.ttl_minutes', 'security', 'int', 10, 'OTP validity (min)', true],
             ['otp.max_attempts', 'security', 'int', 5, 'OTP verification attempts', false],
             ['otp.resend_cooldown_seconds', 'security', 'int', 60, 'Minimum seconds between OTP sends', true],
+
+            // Contractor performance
+            ['performance.repeat_window_days', 'performance', 'int', 90, 'A defect reported again within this many days after an approved repair counts as a repeat defect', false],
+            ['performance.repeat_chainage_m', 'performance', 'int', 100, 'Same place = within this many metres of chainage on the same road (repeat defects)', false],
+            ['performance.hotspot_bin_m', 'performance', 'int', 500, 'Road history: chainage band (m) for recurring problem areas', false],
+            ['performance.hotspot_min_reports', 'performance', 'int', 2, 'Road history: reports in a band to call it a recurring problem area', false],
 
             // Notifications (in-app is always on)
             ['notifications.mail_enabled', 'notifications', 'bool', false, 'Also send email notifications', false],

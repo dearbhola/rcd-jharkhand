@@ -2,6 +2,7 @@
     <x-page-header :title="$road->code.' · '.$road->name" :subtitle="($road->start_location ?? '?').' → '.($road->end_location ?? '?')">
         <x-test-badge :model="$road" />
         <x-status-badge :status="$road->status" />
+        <a href="{{ route('roads.history', $road) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-clock-history me-1"></i>Condition history</a>
         @can('gis.manage')
             <a href="{{ route('gis.geometry.edit', $road) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-bezier me-1"></i>{{ $road->currentGeometry ? 'Edit geometry' : 'Draw geometry' }}</a>
         @endcan

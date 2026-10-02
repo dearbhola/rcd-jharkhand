@@ -1,6 +1,7 @@
 <x-app-layout :title="$contractor->name" :breadcrumbs="['Contractors' => route('contractors.index'), $contractor->name]">
     <x-page-header :title="$contractor->name" :subtitle="$contractor->code">
         <x-test-badge :model="$contractor" /> <x-status-badge :status="$contractor->status" />
+        @can('performance.view')<a href="{{ route('performance.show', $contractor) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-graph-up me-1"></i>Performance</a>@endcan
         @can('contract.create')<a href="{{ route('contracts.create', ['contractor_id' => $contractor->id]) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-plus me-1"></i>New contract</a>@endcan
         @can('contractor.update')<a href="{{ route('contractors.edit', $contractor) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil me-1"></i>Edit</a>@endcan
     </x-page-header>

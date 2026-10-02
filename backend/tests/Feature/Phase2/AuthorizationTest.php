@@ -5,6 +5,7 @@ namespace Tests\Feature\Phase2;
 use App\Models\AuditLog;
 use App\Models\Contractor;
 use App\Models\Permission;
+use App\Models\Road;
 use App\Models\Role;
 use App\Models\User;
 use PHPUnit\Framework\Attributes\Test;
@@ -155,5 +156,17 @@ class AuthorizationTest extends SeededTestCase
         $this->actingAs($admin)->post('/test-data/toggle')->assertRedirect();
         $this->actingAs($admin)->get('/admin/users')->assertDontSee('je001@rcd.test');
         $this->assertDatabaseHas('audit_logs', ['action' => 'testdata.toggled']);
+    }
+
+    #[Test]
+    public function the_test_data_choice_applies_before_records_are_loaded_by_url(): void
+    {
+        config(['rcd.test_data.include_by_default' => false]); // production default
+        $admin = $this->userByEmail('admin@rcd.test');
+        $road = Road::withoutGlobalScopes()->where('code', 'RCD-001')->firstOrFail();
+
+        $this->actingAs($admin)->get("/roads/{$road->id}")->assertNotFound();
+        $this->actingAs($admin)->post('/test-data/toggle')->assertRedirect();
+        $this->actingAs($admin)->get("/roads/{$road->id}")->assertOk()->assertSee('RCD-001');
     }
 }

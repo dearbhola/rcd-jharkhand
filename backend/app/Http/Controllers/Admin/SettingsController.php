@@ -24,6 +24,7 @@ class SettingsController extends Controller
         'workflow' => 'Workflow',
         'delegation' => 'Delegation',
         'security' => 'Security & sign-in',
+        'performance' => 'Performance & history',
         'notifications' => 'Notifications',
         'sync' => 'Offline sync (mobile)',
         'map' => 'Map',

@@ -1,6 +1,7 @@
 <x-app-layout :title="$contract->contract_no" :breadcrumbs="['Contracts' => route('contracts.index'), $contract->contract_no]">
     <x-page-header :title="$contract->contract_no" :subtitle="$contract->name">
         <x-test-badge :model="$contract" /> <x-status-badge :status="$contract->status" />
+        @can('performance.view')<a href="{{ route('contracts.completion', $contract) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-file-earmark-check me-1"></i>Completion report</a>@endcan
         @can('contract.update')<a href="{{ route('contracts.edit', $contract) }}" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil me-1"></i>Edit</a>@endcan
     </x-page-header>
 
