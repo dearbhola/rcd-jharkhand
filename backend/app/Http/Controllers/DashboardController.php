@@ -7,6 +7,7 @@ use App\Enums\RoleCode;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
+
 /**
  * Role dashboards (§35). Users with several roles can switch with ?as=ROLE.
  */
